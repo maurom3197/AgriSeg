@@ -219,7 +219,29 @@ def load_multi_dataset(source_dataset, target_dataset, cfg):
         return source_ds, None
     
     
-def split_data(ds_source, ds_target, cfg):
+def split_data(ds, cfg, return_len=False):
+
+    ds_len = len(ds)
+    test_len = math.floor(ds_len * cfg['SPLIT_SIZE'])
+    val_len = math.floor(ds_len * cfg['SPLIT_SIZE'] * (1 - cfg['SPLIT_SIZE']))
+    train_len = ds_len - test_len - val_len
+    
+    ds = ds.unbatch()
+    ds = ds.shuffle(ds_len, seed=cfg['SEED'] if cfg['SEED'] else None)
+    
+    ds_test = ds.take(val_len)
+    ds_train = ds.skip(val_len)
+
+    ds_val = ds_train.take(val_len)
+    ds_train = ds_train.skip(val_len)
+
+    if return_len:
+        return ds_train, ds_val, ds_test, train_len, val_len, test_len
+    else:
+        return ds_train, ds_val, ds_test
+    
+
+def split_data_dg(ds_source, ds_target, cfg):
     if ds_target:
         d_len = len(ds_target)
         ds_test = ds_target.unbatch()

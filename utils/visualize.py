@@ -3,7 +3,7 @@ import tensorflow as tf
 import numpy as np
 from utils.preprocess import unstandardize_image
 
-def visualize_images(img, gt, pred, denormalize=False, vineyard=False, imagenet=False):
+def visualize_images(img, gt, pred, denormalize=True, vineyard=True, imagenet=True):
     class_colors = [(128, 64, 128), (244, 35, 232), (70, 70, 70), (102, 102, 156), 
                              (190, 153, 153), (153, 153, 153), (250, 170, 30), (220, 220, 0), 
                              (107, 142, 35), (152, 251, 152), (70, 130, 180), (220, 20, 60), 

@@ -3,7 +3,7 @@ import tensorflow as tf
 from utils.instance_norm import _instance_norm_block
 
 
-def build_model_binary(base_model, dropout_rate, n_class, sigmoid=False, mode=None, p=None, eps=1e-5, return_feats=True, fwcta=False): 
+def build_model_binary(base_model, dropout_rate=0, n_class=1, sigmoid=True, mode=None, p=None, eps=1e-5, return_feats=False, fwcta=False): 
 
     #1/8 resolution output
     out_1_8 = base_model.get_layer('expanded_conv_6/expand/act_1').output
